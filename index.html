@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZIGZOO — Vol. 04 // Curated Everyday Objects</title>
+
+  <!-- External Libraries (Tailwind, Google Fonts, Lucide Icons, GSAP) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Linked Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#FDB813] selection:text-[#111111]">
+
+  <!-- 1. LAUNCH PRELOADER -->
+  <div id="loaderScreen" aria-live="polite" class="fixed inset-0 z-[10002] bg-[#FAF7EE] flex flex-col justify-between p-5 sm:p-8 border-b-4 border-[#111111] select-none" style="background-image:radial-gradient(rgba(17,17,17,.1) 1.2px,transparent 1.2px);background-size:20px 20px">
+    <div class="max-w-5xl w-full mx-auto flex items-center justify-between pb-3 border-b-2 border-[#111111] code-font text-[10px] sm:text-xs font-bold">
+      <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#E0533C] dark-border animate-ping"></span><span>BOOTING ZIGZOO_OS // VOL. 04</span></div>
+      <span class="px-2 py-0.5 rounded bg-[#FDB813] dark-border">HANDCRAFTED STORE</span>
+    </div>
+    <div class="my-auto flex flex-col items-center text-center space-y-6 relative py-6">
+      <div class="bob-left hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#A7F3D0] dark-border hard-shadow-sm code-font text-[11px] font-bold absolute -top-4 left-1/4"><span>✦</span><span>SMALL BATCH</span></div>
+      <div class="bob-right hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#BAE6FD] dark-border hard-shadow-sm code-font text-[11px] font-bold absolute -bottom-2 right-1/4"><span>★</span><span>CURATED OBJECTS</span></div>
+      <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
+        <svg viewBox="0 0 160 160" class="w-full h-full spin-ring"><circle cx="80" cy="80" r="70" fill="none" stroke="#111" stroke-width="2.5" stroke-dasharray="10 8"/><circle cx="80" cy="10" r="7" fill="#E0533C" stroke="#111" stroke-width="2"/><circle cx="150" cy="80" r="6" fill="#A7F3D0" stroke="#111" stroke-width="2"/><circle cx="80" cy="150" r="7" fill="#BAE6FD" stroke="#111" stroke-width="2"/><circle cx="10" cy="80" r="6" fill="#FDB813" stroke="#111" stroke-width="2"/></svg>
+        <div class="bob-logo absolute w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#FDB813] dark-border hard-shadow-lg flex items-center justify-center"><span class="heading-font font-bold text-4xl sm:text-5xl">Z</span></div>
+      </div>
+      <div class="space-y-2">
+        <div class="flex items-center justify-center gap-1.5 sm:gap-2">
+          <span class="logo-tile px-2.5 py-1 rounded-xl bg-white dark-border hard-shadow-sm heading-font font-bold text-2xl sm:text-4xl">Z</span>
+          <span class="logo-tile px-2.5 py-1 rounded-xl bg-[#FDB813] dark-border hard-shadow-sm heading-font font-bold text-2xl sm:text-4xl">I</span>
+          <span class="logo-tile px-2.5 py-1 rounded-xl bg-white dark-border hard-shadow-sm heading-font font-bold text-2xl sm:text-4xl">G</span>
+          <span class="logo-tile px-2.5 py-1 rounded-xl bg-[#A7F3D0] dark-border hard-shadow-sm heading-font font-bold text-2xl sm:text-4xl">Z</span>
+          <span class="logo-tile px-2.5 py-1 rounded-xl bg-white dark-border hard-shadow-sm heading-font font-bold text-2xl sm:text-4xl">O</span>
+          <span class="logo-tile px-2.5 py-1 rounded-xl bg-[#E0533C] text-white dark-border hard-shadow-sm heading-font font-bold text-2xl sm:text-4xl">O</span>
+        </div>
+        <p id="loaderMsg" class="code-font text-xs sm:text-sm font-bold tracking-wide pt-1">CALIBRATING STUDIO SHELVES...</p>
+      </div>
+      <div class="w-full max-w-md space-y-2 px-2">
+        <div class="w-full h-6 bg-white dark-border hard-shadow-sm rounded-xl p-1 overflow-hidden"><div id="loaderBar" class="h-full w-0 rounded-lg striped-fill border-r-2 border-[#111111] transition-[width] duration-75"></div></div>
+        <div class="flex justify-between code-font text-[11px] font-bold"><span>DISPATCH_ARCHIVE // 2026</span><span id="loaderPct" class="px-2 py-0.5 rounded bg-[#111111] text-[#FDB813]">000%</span></div>
+      </div>
+    </div>
+    <div class="max-w-5xl w-full mx-auto flex justify-between pt-3 border-t-2 border-dashed border-neutral-400 code-font text-[10px] font-bold text-neutral-600">
+      <span>KOLKATA • BENGALURU • MUMBAI</span>
+      <button onclick="hideLoader()" class="underline hover:text-[#E0533C] cursor-pointer">SKIP INTRO →</button>
+    </div>
+  </div>
+
+  <!-- 2. OFFLINE ALERT MODAL -->
+  <div id="offlineModal" role="alertdialog" aria-modal="true" class="fixed inset-0 z-[10001] bg-[#111111]/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-[#FAF7EE] dark-border hard-shadow-lg rounded-3xl max-w-md w-full p-6 text-center space-y-5">
+      <div class="flex justify-between pb-3 border-b-2 border-[#111111] code-font text-[10px] font-bold"><span class="px-2 py-0.5 rounded bg-[#E0533C] text-white dark-border">SIGNAL_LOST // 0 KBPS</span><span>CONNECTION MONITOR</span></div>
+      <div class="w-32 h-32 mx-auto rounded-2xl bg-[#BAE6FD]/50 dark-border hard-shadow-sm flex items-center justify-center overflow-hidden">
+        <svg viewBox="0 0 120 120" class="w-28 h-28" fill="none"><circle cx="60" cy="60" r="24" stroke="#E0533C" stroke-width="2" class="wave-1"/><circle cx="60" cy="60" r="24" stroke="#111" stroke-width="1.5" class="wave-2"/><g class="plug-swing"><path d="M60 12C60 28 52 34 60 46" stroke="#111" stroke-width="3.5" stroke-linecap="round"/><rect x="47" y="45" width="26" height="18" rx="4" fill="#FDB813" stroke="#111" stroke-width="2.5"/><line x1="54" y1="63" x2="54" y2="72" stroke="#111" stroke-width="3" stroke-linecap="round"/><line x1="66" y1="63" x2="66" y2="72" stroke="#111" stroke-width="3" stroke-linecap="round"/></g><rect x="44" y="84" width="32" height="16" rx="4" fill="#FFF" stroke="#111" stroke-width="2.5"/><circle cx="54" cy="92" r="2" fill="#111"/><circle cx="66" cy="92" r="2" fill="#111"/><line x1="26" y1="94" x2="94" y2="26" stroke="#E0533C" stroke-width="3" stroke-linecap="round" stroke-dasharray="5 4"/></svg>
+      </div>
+      <div class="space-y-2"><h2 class="text-2xl sm:text-3xl font-bold heading-font uppercase">Internet Disconnected</h2><p class="text-xs sm:text-sm text-neutral-700">Your device is offline. Your Zigzoo bag items are cached locally—reconnect to Wi-Fi or mobile data to resume live drops.</p></div>
+      <div class="flex flex-col sm:flex-row gap-2.5"><button id="retryBtn" onclick="retryNet()" class="btn-tap flex-1 py-3 px-4 rounded-xl bg-[#FDB813] hover:bg-[#A7F3D0] text-[#111111] dark-border hard-shadow-sm code-font text-xs font-bold flex items-center justify-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4"></i><span>RETRY CONNECTION</span></button><button onclick="toggleEl('offlineModal',false)" class="btn-tap py-3 px-4 rounded-xl bg-white dark-border hard-shadow-sm code-font text-xs font-bold">BROWSE CACHED</button></div>
+    </div>
+  </div>
+
+  <!-- 3. DESKTOP CUSTOM CURSOR -->
+  <div id="cursorRing" class="hidden md:flex"><span id="cursorLabel" class="code-font text-[10px] font-bold tracking-wider opacity-0"></span></div>
+  <div id="cursorDot" class="hidden md:block"></div>
+
+  <!-- 4. TOP BAR & STICKY HEADER -->
+  <div class="bg-[#111111] text-[#FAF7EE] text-[10px] sm:text-[11px] code-font py-2 px-3 sm:px-4 border-b-2 border-[#111111]">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2"><span class="w-2 h-2 bg-[#FDB813] rounded-full"></span><span>ISSUE NO. 04 // AUTUMN–WINTER</span></div>
+      <div class="font-bold text-[#FDB813] text-center">FREE EXPRESS COURIER OVER <span data-inr="499">₹499</span> — STAMP: <span class="underline">ZIGZOOINDIE</span></div>
+      <div class="hidden lg:block text-neutral-400">KOLKATA • BENGALURU • MUMBAI • DELHI</div>
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-40 bg-[#FAF7EE]/95 backdrop-blur-md border-b-2 border-[#111111]">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 py-3 flex items-center justify-between gap-2.5">
+      <a href="#" onclick="showHome()" class="flex items-center gap-2.5 group flex-shrink-0">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 bg-[#FDB813] dark-border hard-shadow-sm rounded-xl flex items-center justify-center font-bold text-xl sm:text-2xl heading-font group-hover:-rotate-6 transition-transform">Z</div>
+        <div>
+          <div class="flex items-center gap-1.5"><span class="text-xl sm:text-2xl font-bold heading-font leading-none">ZIGZOO</span><span class="text-[9px] sm:text-[10px] code-font font-bold px-1.5 py-0.5 bg-[#A7F3D0] dark-border rounded">EST.26</span></div>
+          <span class="text-[9px] sm:text-[10px] code-font uppercase tracking-widest text-neutral-600 hidden sm:block mt-0.5">Independent General Store</span>
+        </div>
+      </a>
+
+      <!-- Desktop Search -->
+      <div class="flex-1 max-w-md hidden md:block">
+        <div id="deskSearchWrap" class="relative group">
+          <input id="deskSearch" type="text" autocomplete="off" placeholder="Search smartphones..." class="w-full bg-white dark-border rounded-xl py-2 pl-10 pr-24 text-xs font-medium placeholder-neutral-500 focus:outline-none hard-shadow-sm">
+          <span class="absolute left-3 top-2 pointer-events-none"><svg id="deskGlass" viewBox="0 0 24 24" class="w-4.5 h-4.5 glass-icon overflow-visible" fill="none"><circle cx="10" cy="10" r="6.5" stroke="var(--coral)" stroke-width="1.8" class="radar-ring"/><circle cx="10" cy="10" r="6.5" stroke="currentColor" stroke-width="2.4" class="glass-lens"/><path d="M15 15L20.5 20.5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><circle cx="20.5" cy="20.5" r="1.4" fill="var(--coral)"/></svg></span>
+          <button type="button" onclick="runSearch()" class="code-font text-[10px] font-bold bg-[#FAF7EE] hover:bg-[#A7F3D0] dark-border px-2 py-0.5 rounded-lg absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer">✦ <span id="deskSearchBtn">⌘K</span></button>
+          <div id="deskDrop" class="hidden absolute left-0 right-0 top-full mt-2 bg-white dark-border hard-shadow-lg rounded-2xl p-3 z-50 space-y-2"><div class="flex justify-between code-font text-[9px] font-bold text-neutral-500 border-b border-dashed pb-1"><span>SEARCH OPTION</span><span>PRESS ENTER</span></div><div id="deskChips"></div></div>
+        </div>
+      </div>
+
+      <!-- Header Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="reloadSite()" title="Reload Website" class="btn-tap w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white hover:bg-[#BAE6FD] dark-border hard-shadow-sm flex items-center justify-center"><i data-lucide="rotate-cw" id="reloadIcon" class="w-4 h-4 transition-transform duration-500"></i></button>
+        <button onclick="toggleMobSearch()" class="md:hidden btn-tap w-9 h-9 rounded-xl bg-white dark-border hard-shadow-sm flex items-center justify-center" aria-label="Search"><i data-lucide="search" class="w-4 h-4"></i></button>
+        <button onclick="toggleEl('ziggyModal',true)" class="btn-tap inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 rounded-xl bg-[#A7F3D0] dark-border hard-shadow-sm text-[11px] sm:text-xs font-bold"><span class="w-2 h-2 rounded-full bg-[#111111] animate-ping"></span><span class="code-font hidden sm:inline">ASK ZIGGY</span><span class="code-font sm:hidden">ZIGGY</span></button>
+        <button onclick="openBag()" class="btn-tap inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 rounded-xl bg-[#111111] text-[#FAF7EE] dark-border hard-shadow-sm text-xs font-bold"><i data-lucide="shopping-bag" class="w-4 h-4 text-[#FDB813]"></i><span class="hidden sm:inline code-font">BAG</span><span id="bagBadge" class="px-1.5 py-0.5 rounded bg-[#E0533C] text-white code-font text-[11px] font-bold">2</span></button>
+        <button onclick="toggleEl('settingsDrawer',true)" title="Settings" class="btn-tap w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white hover:bg-[#FDB813] dark-border hard-shadow-sm flex items-center justify-center group"><i data-lucide="settings" class="w-4 h-4 group-hover:rotate-90 transition-transform"></i></button>
+        <button onclick="toggleEl('profileDrawer',true)" title="Member Profile X" class="btn-tap relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#FDB813] dark-border hard-shadow-sm overflow-hidden flex items-center justify-center flex-shrink-0"><svg viewBox="0 0 64 64" class="w-full h-full"><circle cx="32" cy="32" r="30" fill="var(--yellow)"/><circle cx="32" cy="32" r="24" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="3 3"/><text x="32" y="42" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="30" fill="#111">X</text></svg><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#A7F3D0] border border-[#111111]"></span></button>
+      </div>
+    </div>
+
+    <!-- Mobile Search -->
+    <div id="mobSearchPanel" class="hidden md:hidden px-3.5 pb-3 border-t border-dashed border-neutral-300 pt-2.5 bg-[#FAF7EE]">
+      <div id="mobSearchWrap" class="relative group">
+        <input id="mobSearch" type="text" autocomplete="off" placeholder="Search smartphones..." class="w-full bg-white dark-border rounded-xl py-2 pl-3.5 pr-16 text-xs font-medium focus:outline-none hard-shadow-sm">
+        <button type="button" onclick="runSearch()" class="code-font text-[10px] font-bold bg-[#FDB813] dark-border px-2 py-0.5 rounded-lg absolute right-2 top-1/2 -translate-y-1/2">✦ GO</button>
+        <div id="mobDrop" class="hidden mt-2 bg-white dark-border hard-shadow-sm rounded-2xl p-2.5 space-y-1.5"><div class="code-font text-[9px] font-bold text-neutral-500">SEARCH OPTION:</div><div id="mobChips"></div></div>
+      </div>
+    </div>
+
+    <!-- Category Bar & Scroll Ruler -->
+    <div id="catBar" class="border-t-2 border-[#111111] bg-white"><div id="catList" class="max-w-7xl mx-auto px-3.5 sm:px-6 py-2.5 overflow-x-auto no-bar flex items-center gap-2 text-xs font-bold code-font"></div></div>
+    <div id="scrollRuler" onclick="jumpScroll(event)" title="Click ruler to jump" class="relative w-full h-2 bg-[#FAF7EE] ruler-ticks border-t-2 border-[#111111] cursor-pointer select-none"><div id="scrollFill" class="h-full w-0 striped-fill border-r-2 border-[#111111] relative"><span id="scrollPct" class="hidden sm:inline-flex px-1 bg-[#111111] text-[#FDB813] code-font text-[8px] font-bold rounded-sm border border-[#111111] absolute -right-4 top-2.5 shadow-[1.5px_1.5px_0_#FDB813]">00%</span></div></div>
+  </header>
+
+  <!-- 5. MAIN STOREFRONT VIEW -->
+  <main id="homeView" class="flex-1 w-full">
+    <section class="max-w-7xl mx-auto px-3.5 sm:px-6 pt-6 sm:pt-8 pb-8 sm:pb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div class="lg:col-span-7 bg-white dark-border hard-shadow-lg rounded-3xl p-5 sm:p-8 lg:p-10 flex flex-col justify-between hero-anim">
+          <div class="flex flex-wrap justify-between gap-2 pb-5 border-b-2 border-dashed border-neutral-300"><span class="px-3 py-1 rounded-lg bg-[#FDB813] dark-border text-xs font-bold code-font">★ VOL. 04 // HANDCRAFTED EDIT</span><span class="code-font text-xs font-bold text-neutral-600">INDEX: 001 — 420 OBJECTS</span></div>
+          <div class="py-5 sm:py-7 space-y-4"><h1 class="text-3xl sm:text-5xl xl:text-6xl font-bold leading-[1.04] uppercase">Curated objects for <span class="bg-[#A7F3D0] px-2 dark-border rounded-xl inline-block -rotate-1">everyday</span> rituals.</h1><p class="text-xs sm:text-base text-neutral-700 max-w-xl leading-relaxed font-medium">No endless algorithmic clutter. Zigzoo pairs honest regional craftsmanship with tactile modern tech—inspected, tested, and shipped straight to your doorstep.</p></div>
+          <div class="pt-4 border-t-2 border-[#111111] flex flex-wrap items-center justify-between gap-4">
+            <div class="flex flex-wrap gap-2.5 w-full sm:w-auto">
+              <a href="#dealsSec" class="btn-tap flex-1 sm:flex-initial justify-center px-5 py-3 rounded-xl bg-[#E0533C] text-white dark-border hard-shadow-sm font-bold text-xs sm:text-sm code-font flex items-center gap-2"><span>BROWSE TOP DEALS</span><i data-lucide="arrow-down-right" class="w-4 h-4"></i></a>
+              <button onclick="toggleEl('ziggyModal',true)" class="btn-tap flex-1 sm:flex-initial justify-center px-4 py-3 rounded-xl bg-[#FAF7EE] hover:bg-[#FDB813] dark-border hard-shadow-sm font-bold text-xs sm:text-sm code-font">CHAT WITH ZIGGY</button>
+            </div>
+            <div id="heroDots" class="flex items-center gap-2 mx-auto sm:mx-0"></div>
+          </div>
+        </div>
+
+        <div id="heroStage" class="lg:col-span-5 bg-[#BAE6FD] dark-border hard-shadow-lg rounded-3xl p-4 sm:p-5 flex flex-col justify-between hero-anim transition-colors duration-300">
+          <div class="flex items-center justify-between bg-white dark-border rounded-xl px-3.5 py-2"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#E0533C] dark-border"></span><span id="heroTag" class="code-font text-[11px] font-bold">HERO DROP // 01</span></div><span id="heroBadge" class="code-font text-[10px] font-bold bg-[#FDB813] px-2 py-0.5 rounded dark-border">SAVE 35%</span></div>
+          <div id="heroImgWrap" class="relative my-3.5 rounded-2xl bg-white dark-border overflow-hidden aspect-[4/3] group cursor-zoom-in">
+            <img id="heroImg" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700&q=85" alt="Hero Product" onerror="this.src='https://placehold.co/700x525/BAE6FD/111111?text=Studio+Pro'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 bg-[#111111] text-[#FAF7EE] dark-border px-2.5 py-1 rounded-lg code-font text-[10px] font-bold flex items-center gap-1"><span class="text-[#FDB813]">★</span><span id="heroRating">4.9 (412 REVIEWS)</span></div>
+            <div class="absolute bottom-3 right-3 flex gap-1.5"><button onclick="setHero(heroIdx-1)" class="btn-tap w-8 h-8 rounded-lg bg-white hover:bg-[#FDB813] dark-border flex items-center justify-center"><i data-lucide="chevron-left" class="w-4 h-4"></i></button><button onclick="setHero(heroIdx+1)" class="btn-tap w-8 h-8 rounded-lg bg-white hover:bg-[#FDB813] dark-border flex items-center justify-center"><i data-lucide="chevron-right" class="w-4 h-4"></i></button></div>
+          </div>
+          <div class="bg-white dark-border rounded-2xl p-3.5 sm:p-4 space-y-3">
+            <div class="flex justify-between gap-2"><div><h2 id="heroTitle" class="text-lg sm:text-xl font-bold leading-tight">Over-Ear Studio Pro</h2><p id="heroDesc" class="text-xs text-neutral-600 mt-0.5 line-clamp-1">32-hour battery, warm analog soundstage &amp; plush memory foam.</p></div><div class="text-right flex-shrink-0"><div id="heroPrice" class="text-lg sm:text-xl font-bold heading-font">₹2,399</div><div id="heroOldPrice" class="text-[11px] text-neutral-400 line-through code-font">₹3,699</div></div></div>
+            <button onclick="addBag(heroSlides[heroIdx].title, heroSlides[heroIdx].price)" class="btn-tap w-full py-2.5 rounded-xl bg-[#A7F3D0] hover:bg-[#FDB813] dark-border hard-shadow-sm code-font text-xs font-bold flex items-center justify-center gap-2"><i data-lucide="shopping-bag" class="w-4 h-4"></i><span>ADD FEATURED OBJECT TO BAG</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ticker Marquee -->
+    <div class="ticker-wrap bg-[#FDB813] border-y-2 border-[#111111] py-3 overflow-hidden select-none">
+      <div class="ticker-track gap-8 code-font text-xs sm:text-sm font-bold text-[#111111]">
+        <span>✦ HONEST REGIONAL CRAFT</span><span>★ 7-DAY NO-FUSS RETURNS</span><span>✦ FESTIVE DIWALI EDITIONS LIVE</span><span>★ ZERO MIDDLEMAN MARKUPS</span><span>✦ VERIFIED STUDIO AUDIO &amp; TECH</span><span>★ FREE SHIPPING OVER <span data-inr="499">₹499</span></span>
+        <span>✦ HONEST REGIONAL CRAFT</span><span>★ 7-DAY NO-FUSS RETURNS</span><span>✦ FESTIVE DIWALI EDITIONS LIVE</span><span>★ ZERO MIDDLEMAN MARKUPS</span><span>✦ VERIFIED STUDIO AUDIO &amp; TECH</span><span>★ FREE SHIPPING OVER <span data-inr="499">₹499</span></span>
+      </div>
+    </div>
+
+    <!-- Dynamic Store Sections -->
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 py-10 sm:py-14 space-y-16 sm:space-y-24">
+      <section id="dealsSec" class="reveal-sec space-y-5">
+        <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-[#111111] pb-4"><div><span class="code-font text-xs font-bold bg-[#E0533C] text-white px-2.5 py-0.5 rounded dark-border">01 // FLASH DROPS</span><h2 class="text-2xl sm:text-4xl font-bold mt-2 uppercase">Top Deals</h2></div><div class="flex gap-2.5"><button onclick="document.getElementById('dealsRow').scrollBy({left:-320,behavior:'smooth'})" class="btn-tap w-10 h-10 rounded-xl bg-white dark-border hard-shadow-sm flex items-center justify-center"><i data-lucide="arrow-left" class="w-4 h-4"></i></button><button onclick="document.getElementById('dealsRow').scrollBy({left:320,behavior:'smooth'})" class="btn-tap w-10 h-10 rounded-xl bg-[#FDB813] dark-border hard-shadow-sm flex items-center justify-center"><i data-lucide="arrow-right" class="w-4 h-4"></i></button></div></div>
+        <div id="dealsRow" class="flex gap-4 sm:gap-5 overflow-x-auto no-bar pb-4 pt-1 scroll-smooth"></div>
+      </section>
+
+      <section class="reveal-sec">
+        <div class="bg-[#111111] text-[#FAF7EE] dark-border hard-shadow-lg rounded-3xl p-5 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex items-start sm:items-center gap-4"><div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#A7F3D0] text-[#111111] dark-border flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0">🤖</div><div><div class="flex items-center gap-2"><span class="code-font text-[10px] font-bold px-2 py-0.5 rounded bg-[#FDB813] text-[#111111]">ZIGGY_OS v2.4</span><span class="code-font text-[11px] text-[#A7F3D0]">● ONLINE</span></div><h3 class="text-xl sm:text-2xl font-bold mt-1">Need help picking? Ask Ziggy.</h3><p class="text-xs sm:text-sm text-neutral-300 mt-0.5">Compare audio specs, curate a custom Diwali hamper under <span data-inr="1000">₹1,000</span>, or check live courier status.</p></div></div>
+          <button onclick="toggleEl('ziggyModal',true)" class="btn-tap w-full md:w-auto justify-center px-6 py-3.5 rounded-xl bg-[#A7F3D0] hover:bg-[#FDB813] text-[#111111] dark-border font-bold text-xs sm:text-sm code-font flex items-center gap-2"><span>LAUNCH TERMINAL</span><i data-lucide="terminal" class="w-4 h-4"></i></button>
+        </div>
+      </section>
+
+      <section class="reveal-sec space-y-5">
+        <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-[#111111] pb-4"><div><span class="code-font text-xs font-bold bg-[#BAE6FD] px-2.5 py-0.5 rounded dark-border">02 // MAKER STORIES</span><h2 class="text-2xl sm:text-4xl font-bold mt-2 uppercase">Spotlights</h2></div><span class="code-font text-xs font-bold text-neutral-600">SMALL BATCH // DIRECT FROM STUDIO</span></div>
+        <div id="spotlightsGrid" class="grid grid-cols-1 lg:grid-cols-12 gap-6"></div>
+      </section>
+
+      <section class="reveal-sec space-y-5">
+        <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-[#111111] pb-4"><div><span class="code-font text-xs font-bold bg-[#FDB813] px-2.5 py-0.5 rounded dark-border">03 // QUALITY PROTOCOL</span><h2 class="text-2xl sm:text-4xl font-bold mt-2 uppercase">The Zigzoo Standard</h2></div><span class="code-font text-xs font-bold text-neutral-600">TESTED BEFORE LISTED</span></div>
+        <div id="pillarsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+      </section>
+
+      <section class="reveal-sec space-y-5">
+        <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-[#111111] pb-4"><div><span class="code-font text-xs font-bold bg-[#A7F3D0] px-2.5 py-0.5 rounded dark-border">04 // DAILY PROVISIONS</span><h2 class="text-2xl sm:text-4xl font-bold mt-2 uppercase">Essential Store</h2></div><span class="code-font text-xs font-bold bg-white dark-border px-3 py-1 rounded-lg">RESTOCKED EVERY MORNING</span></div>
+        <div id="essentialsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+      </section>
+
+      <section class="reveal-sec">
+        <div class="bg-[#FDB813] dark-border hard-shadow-lg rounded-3xl p-5 sm:p-8 lg:p-10 relative overflow-hidden">
+          <svg class="absolute -right-12 -bottom-12 w-80 h-80 text-[#111111]/10 pointer-events-none" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="60" cy="60" r="54" stroke-dasharray="4 3"/><circle cx="60" cy="60" r="40"/><circle cx="60" cy="60" r="24"/><polygon points="60,6 72,42 110,42 79,64 90,100 60,78 30,100 41,64 10,42 48,42"/></svg>
+          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-7 items-center">
+            <div class="lg:col-span-5 space-y-4">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#E0533C] text-white dark-border code-font text-xs font-bold"><span>🪔</span><span>DIWALI DEALS ★ FESTIVE EDIT</span></div>
+              <h2 class="text-3xl sm:text-5xl font-bold text-[#111111] leading-[1.05] uppercase">Light up the season with brass &amp; mithai.</h2>
+              <p class="text-xs sm:text-sm text-[#111111]/85 font-medium leading-relaxed">Hand-beaten Moradabad brass diyas, pure Kaju Katli gift boxes, and warm copper string lights—delivered with complimentary hand-stamped gift tags.</p>
+              <button onclick="addBag('Complete Diwali Hamper', 1499)" class="btn-tap w-full sm:w-auto px-5 py-3 rounded-xl bg-[#111111] text-[#FAF7EE] dark-border code-font text-xs font-bold">GRAB FULL HAMPER — <span data-inr="1499">₹1,499</span></button>
+            </div>
+            <div id="diwaliGrid" class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3.5"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal-sec space-y-5">
+        <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-[#111111] pb-4"><div><span class="code-font text-xs font-bold bg-[#BAE6FD] px-2.5 py-0.5 rounded dark-border">05 // COMPLETE CATALOG</span><h2 class="text-2xl sm:text-4xl font-bold mt-2 uppercase">Editor's Shelf</h2></div><span class="code-font text-xs font-bold text-neutral-600">OBJECTS BUILT TO OUTLAST TRENDS</span></div>
+        <div id="shelfGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"></div>
+      </section>
+
+      <section id="bookshelfSec" class="reveal-sec space-y-5">
+        <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-[#111111] pb-4"><div><span class="code-font text-xs font-bold bg-[#A7F3D0] px-2.5 py-0.5 rounded dark-border">06 // READING ROOM</span><h2 class="text-2xl sm:text-4xl font-bold mt-2 uppercase">The Zigzoo Bookshelf</h2></div><span class="code-font text-xs font-bold text-neutral-600">TAP ANY SPINE TO PULL OFF SHELF</span></div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <div class="lg:col-span-7 bg-white dark-border hard-shadow-lg rounded-3xl p-5 sm:p-7 flex flex-col justify-between">
+            <div class="flex justify-between pb-4 border-b-2 border-dashed border-neutral-300"><span class="code-font text-[11px] font-bold bg-[#FAF7EE] dark-border px-2.5 py-1 rounded-lg">SHELF_A // DESIGN, BIOGRAPHY &amp; CRAFT</span><span class="code-font text-[11px] font-bold text-neutral-500">06 VOLUMES</span></div>
+            <div id="spinesRow" class="pt-10 px-2 sm:px-4 flex items-end justify-center gap-2 sm:gap-3.5 min-h-[300px] sm:min-h-[330px] overflow-x-auto no-bar"></div>
+            <div><div class="h-4 bg-[#FDB813] dark-border rounded-xl hard-shadow-sm flex items-center justify-between px-4"><span class="w-2 h-2 rounded-full bg-[#111111]"></span><span class="code-font text-[9px] font-bold tracking-widest text-[#111111]">ZIGZOO LIBRARY ARCHIVE // 2026</span><span class="w-2 h-2 rounded-full bg-[#111111]"></span></div><div class="flex justify-between px-6"><div class="w-4 h-3 bg-[#111111] rounded-b-md"></div><div class="w-4 h-3 bg-[#111111] rounded-b-md"></div></div></div>
+          </div>
+          <div id="bookCard" class="lg:col-span-5 bg-[#FAF7EE] dark-border hard-shadow-lg rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-colors">
+            <div>
+              <div class="flex justify-between gap-2 pb-3 border-b-2 border-[#111111]"><span id="bGenre" class="code-font text-[10px] font-bold bg-[#FDB813] dark-border px-2.5 py-0.5 rounded">INDUSTRIAL DESIGN</span><span id="bPages" class="code-font text-[11px] font-bold text-neutral-700">368 PAGES // PAPERBACK</span></div>
+              <div class="mt-4 grid grid-cols-12 gap-4 items-center"><div class="col-span-5 aspect-[3/4] rounded-2xl bg-white dark-border hard-shadow-sm overflow-hidden"><img id="bCover" src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=85" alt="Book Cover" onerror="this.src='https://placehold.co/500x660/FDB813/111111?text=Book+Cover'" class="w-full h-full object-cover"></div><div class="col-span-7 space-y-2"><div id="bAuthor" class="code-font text-[11px] font-bold text-[#E0533C]">DON NORMAN</div><h3 id="bTitle" class="text-xl sm:text-2xl font-bold leading-tight">The Design of Everyday Things</h3><p id="bSummary" class="text-xs text-neutral-700 leading-relaxed"></p></div></div>
+              <blockquote class="mt-4 bg-white dark-border rounded-2xl p-3.5"><span class="code-font text-[9px] font-bold bg-[#A7F3D0] dark-border px-1.5 py-0.5 rounded uppercase">Marginalia Note</span><p id="bQuote" class="text-xs italic font-medium mt-1.5 leading-relaxed"></p></blockquote>
+            </div>
+            <div class="mt-5 pt-3.5 border-t-2 border-[#111111] flex items-center justify-between gap-3"><div><span class="code-font text-[10px] font-bold text-neutral-500 block">EDITION PRICE</span><span id="bPrice" class="text-xl font-bold heading-font">₹549</span></div><div class="flex gap-2"><button onclick="addBag('Book: '+books[bookIdx].title, books[bookIdx].price)" class="btn-tap px-4 py-2.5 rounded-xl bg-[#111111] text-[#FAF7EE] hover:bg-[#E0533C] dark-border hard-shadow-sm code-font text-xs font-bold flex items-center gap-1.5"><i data-lucide="book-open" class="w-3.5 h-3.5 text-[#FDB813]"></i><span>+ ADD BOOK</span></button><button onclick="addBag('Zigzoo Complete 6-Book Library Bundle', 2635)" class="btn-tap px-3 py-2.5 rounded-xl bg-[#FDB813] dark-border hard-shadow-sm code-font text-xs font-bold">ALL 6</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="reviewsFaqSec" class="reveal-sec grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"></section>
+    </div>
+  </main>
+
+  <!-- 6. SMARTPHONES SEARCH RESULTS VIEW -->
+  <section id="phonesView" class="hidden flex-1 w-full max-w-7xl mx-auto px-3.5 sm:px-6 py-8 sm:py-12 space-y-8">
+    <div class="bg-white dark-border hard-shadow-lg rounded-3xl p-5 sm:p-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="space-y-1.5"><div class="flex flex-wrap gap-2"><span class="code-font text-[10px] font-bold bg-[#FDB813] dark-border px-2.5 py-0.5 rounded">SEARCH_DISPATCH // LIVE CATALOG</span><span id="phonesCount" class="code-font text-[10px] font-bold bg-[#A7F3D0] dark-border px-2.5 py-0.5 rounded">9 SMARTPHONES FOUND</span></div><h1 class="text-2xl sm:text-4xl font-bold heading-font uppercase">Results for "<span class="underline decoration-[#E0533C]">SMARTPHONES</span>"</h1><p class="text-xs sm:text-sm text-neutral-600">Tap any object card below to open the 2.4X Optical Loupe Zoom &amp; Verified Ratings window.</p></div>
+      <button onclick="showHome()" class="btn-tap w-full md:w-auto justify-center px-5 py-3 rounded-xl bg-[#111111] text-[#FAF7EE] hover:bg-[#E0533C] dark-border hard-shadow-sm code-font text-xs font-bold flex items-center gap-2"><i data-lucide="arrow-left" class="w-4 h-4 text-[#FDB813]"></i><span>BACK TO MAIN STORE</span></button>
+    </div>
+    <div class="flex items-center gap-2 code-font text-xs font-bold"><span class="text-[11px] text-neutral-500">SEARCH OPTION:</span><button onclick="runSearch()" class="btn-tap px-3 py-1.5 rounded-xl bg-[#FDB813] dark-border hard-shadow-sm">📱 SMARTPHONES</button></div>
+    <div id="phonesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6"></div>
+  </section>
+
+  <!-- 7. FOOTER -->
+  <footer class="bg-white border-t-2 border-[#111111] mt-10">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 py-10 sm:py-12 space-y-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center pb-8 border-b-2 border-dashed border-neutral-300">
+        <div class="lg:col-span-6 space-y-2"><span class="code-font text-[10px] font-bold bg-[#A7F3D0] dark-border px-2 py-0.5 rounded">DISPATCH LIST</span><h3 class="text-2xl sm:text-3xl font-bold">Get weekend studio drops before they sell out.</h3><p class="text-xs text-neutral-600">Zero spam. Just one illustrated dispatch every Friday morning.</p></div>
+        <form onsubmit="event.preventDefault();toast('Welcome to the Zigzoo Dispatch!');this.reset()" class="lg:col-span-6 flex flex-col sm:flex-row gap-3"><input type="email" required placeholder="you@domain.com" class="flex-1 bg-[#FAF7EE] dark-border rounded-xl px-4 py-3 text-xs font-medium focus:outline-none hard-shadow-sm"><button type="submit" class="btn-tap px-6 py-3 rounded-xl bg-[#FDB813] dark-border hard-shadow-sm code-font text-xs font-bold">SUBSCRIBE →</button></form>
+      </div>
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="space-y-1.5"><div class="flex flex-wrap items-center gap-2"><span class="font-bold text-xl heading-font">ZIGZOO</span><span class="code-font text-xs text-neutral-500">// MILLIONS OF CHOICES, ONE TRUSTED TAP.</span></div><p class="text-xs text-neutral-600">Delivering honest craft and everyday joy across India. ❤️</p></div>
+        <div class="flex flex-wrap gap-2.5"><a href="https://facebook.com" target="_blank" rel="noreferrer" class="btn-tap px-3.5 py-2 rounded-xl bg-[#FAF7EE] hover:bg-[#BAE6FD] dark-border hard-shadow-sm code-font text-xs font-bold">FACEBOOK</a><a href="https://instagram.com" target="_blank" rel="noreferrer" class="btn-tap px-3.5 py-2 rounded-xl bg-[#FAF7EE] hover:bg-[#FDB813] dark-border hard-shadow-sm code-font text-xs font-bold">INSTAGRAM</a><a href="https://x.com" target="_blank" rel="noreferrer" class="btn-tap px-3.5 py-2 rounded-xl bg-[#FAF7EE] hover:bg-[#A7F3D0] dark-border hard-shadow-sm code-font text-xs font-bold">X / TWITTER</a><button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="btn-tap px-4 py-2 rounded-xl bg-[#111111] text-[#FAF7EE] dark-border hard-shadow-sm code-font text-xs font-bold flex items-center gap-1.5"><span>BACK TO TOP</span><i data-lucide="arrow-up" class="w-3.5 h-3.5 text-[#FDB813]"></i></button></div>
+      </div>
+      <div class="pt-4 border-t border-neutral-200 flex justify-between code-font text-[11px] text-neutral-500"><span>© 2026 ZIGZOO GENERAL STORE PVT. LTD.</span><span>DESIGNED WITH TACTILE CARE</span></div>
+    </div>
+  </footer>
+
+  <!-- 8. MODALS & DRAWERS -->
+  <div id="ziggyModal" onclick="if(event.target===this)toggleEl('ziggyModal',false)" class="fixed inset-0 bg-[#111111]/50 backdrop-blur-xs z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-[#FAF7EE] dark-border hard-shadow-lg rounded-t-3xl sm:rounded-3xl max-w-md w-full p-5 sm:p-6 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b-2 border-[#111111]"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-[#A7F3D0] dark-border flex items-center justify-center text-xl">🤖</div><div><h3 class="font-bold text-sm heading-font">ZIGGY_CONCIERGE.EXE</h3><span class="code-font text-[10px] font-bold text-emerald-700">● READY FOR QUERIES</span></div></div><button onclick="toggleEl('ziggyModal',false)" class="btn-tap w-8 h-8 rounded-lg bg-white dark-border flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+      <div id="chatBox" class="space-y-3 max-h-60 overflow-y-auto text-xs pr-1"><div class="bg-white dark-border p-3.5 rounded-2xl">Namaste! 👋 I am <strong>Ziggy</strong>. Ask me for Diwali hamper ideas, headphone specs, or delivery timelines.</div></div>
+      <div class="flex flex-wrap gap-1.5"><button onclick="askZiggy('Best Diwali gift boxes?')" class="btn-tap text-[11px] code-font font-bold px-2.5 py-1 rounded-lg bg-[#FDB813] dark-border">🪔 Diwali gifts?</button><button onclick="askZiggy('Tell me about Studio Pro')" class="btn-tap text-[11px] code-font font-bold px-2.5 py-1 rounded-lg bg-[#BAE6FD] dark-border">🎧 Studio Pro?</button><button onclick="askZiggy('How fast is delivery?')" class="btn-tap text-[11px] code-font font-bold px-2.5 py-1 rounded-lg bg-[#A7F3D0] dark-border">🚚 Delivery?</button></div>
+      <form onsubmit="event.preventDefault();askZiggy()" class="flex gap-2 pt-2 border-t-2 border-[#111111]"><input id="chatIn" type="text" placeholder="Type your question..." class="flex-1 bg-white dark-border rounded-xl px-3.5 py-2 text-xs focus:outline-none"><button type="submit" class="btn-tap px-4 py-2 rounded-xl bg-[#111111] text-[#FAF7EE] dark-border code-font text-xs font-bold">SEND</button></form>
+    </div>
+  </div>
+
+  <div id="bagDrawer" onclick="if(event.target===this)toggleEl('bagDrawer',false)" class="fixed inset-0 bg-[#111111]/50 backdrop-blur-xs z-50 hidden flex justify-end">
+    <div class="bg-[#FAF7EE] border-l-2 border-[#111111] w-full max-w-md h-full p-5 sm:p-6 flex flex-col justify-between">
+      <div><div class="flex items-center justify-between pb-4 border-b-2 border-[#111111]"><h3 class="text-xl font-bold heading-font">YOUR BAG (<span id="bagCount">2</span>)</h3><button onclick="toggleEl('bagDrawer',false)" class="btn-tap w-9 h-9 rounded-xl bg-white dark-border flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button></div><div id="bagList" class="mt-4 space-y-3 max-h-[60vh] overflow-y-auto pr-1"></div></div>
+      <div class="pt-4 border-t-2 border-[#111111] space-y-3"><div class="flex justify-between font-bold"><span class="code-font text-xs">SUBTOTAL</span><span id="bagTotal" class="text-xl heading-font">₹2,898</span></div><button onclick="openCheckout()" class="btn-tap w-full py-3.5 rounded-xl bg-[#FDB813] dark-border hard-shadow-sm code-font text-xs font-bold">PROCEED TO CHECKOUT →</button></div>
+    </div>
+  </div>
+
+  <div id="payModal" role="dialog" aria-modal="true" onclick="if(event.target===this && !payBusy)toggleEl('payModal',false)" class="fixed inset-0 bg-[#111111]/65 backdrop-blur-sm z-[10003] hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-[#FAF7EE] dark-border hard-shadow-lg rounded-t-3xl sm:rounded-3xl max-w-lg w-full max-h-[92dvh] flex flex-col overflow-hidden">
+      <div class="bg-[#111111] text-[#FAF7EE] px-4 sm:px-6 py-3.5 border-b-2 border-[#111111] flex items-center justify-between"><div class="flex items-center gap-2.5"><span class="w-8 h-8 rounded-lg bg-[#FDB813] text-[#111111] dark-border flex items-center justify-center font-bold heading-font">₹</span><div><div class="flex items-center gap-2"><span class="code-font text-xs sm:text-sm font-bold text-[#FDB813]">ZIGZOO_PAY // SANDBOX</span><span class="code-font text-[9px] font-bold bg-[#A7F3D0] text-[#111111] px-1.5 py-0.5 rounded">TEST MODE</span></div><p class="code-font text-[10px] text-neutral-300">ENCRYPTED DEMO CHECKOUT • NO REAL CHARGE</p></div></div><button onclick="if(!payBusy)toggleEl('payModal',false)" class="btn-tap w-8 h-8 rounded-lg bg-white text-[#111111] hover:bg-[#E0533C] hover:text-white dark-border flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+      <div id="payForm" class="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
+        <div class="bg-white dark-border hard-shadow-sm rounded-2xl p-4 flex justify-between items-center"><div><span class="code-font text-[10px] font-bold text-neutral-500 block">PAYABLE AMOUNT (<span id="payItems">2</span> ITEMS)</span><span id="payAmt" class="text-2xl sm:text-3xl font-bold heading-font">₹2,898</span></div><div class="text-right code-font text-[10px] font-bold"><span class="px-2 py-1 rounded-lg bg-[#A7F3D0] dark-border">FREE EXPRESS</span><span class="block text-neutral-500 mt-1">7-DAY RETURN</span></div></div>
+        <div class="grid grid-cols-3 gap-2 code-font text-[11px] font-bold"><button onclick="setPayTab('upi')" data-ptab="upi" class="ptab py-2.5 rounded-xl bg-[#111111] text-[#FAF7EE] dark-border">⚡ UPI / QR</button><button onclick="setPayTab('card')" data-ptab="card" class="ptab py-2.5 rounded-xl bg-white dark-border">💳 CARD</button><button onclick="setPayTab('cod')" data-ptab="cod" class="ptab py-2.5 rounded-xl bg-white dark-border">📦 COD</button></div>
+        <div id="paneUpi" class="bg-white dark-border rounded-2xl p-4 space-y-3"><div class="flex justify-between code-font text-[11px] font-bold"><span>ENTER TEST UPI ID</span><span class="bg-[#FDB813] dark-border px-2 py-0.5 rounded text-[9px]">INSTANT</span></div><input id="upiId" value="explorer.x@zigzoopay" class="w-full bg-[#FAF7EE] dark-border rounded-xl px-3.5 py-2.5 text-xs font-bold code-font focus:outline-none"><div class="flex gap-1.5 code-font text-[10px] font-bold"><button onclick="document.getElementById('upiId').value='explorer.x@okaxis'" class="px-2.5 py-1 rounded-lg bg-[#FAF7EE] hover:bg-[#BAE6FD] dark-border">@okaxis</button><button onclick="document.getElementById('upiId').value='explorer.x@ybl'" class="px-2.5 py-1 rounded-lg bg-[#FAF7EE] hover:bg-[#A7F3D0] dark-border">@ybl</button><button onclick="document.getElementById('upiId').value='explorer.x@zigzoopay'" class="px-2.5 py-1 rounded-lg bg-[#FAF7EE] hover:bg-[#FDB813] dark-border">@zigzoopay</button></div></div>
+        <div id="paneCard" class="hidden bg-white dark-border rounded-2xl p-4 space-y-3"><div class="flex justify-between code-font text-[11px] font-bold"><span>SANDBOX CARD</span><span class="bg-[#BAE6FD] dark-border px-2 py-0.5 rounded text-[9px]">4242 •••• 4242</span></div><input value="4242 4242 4242 4242" maxlength="19" oninput="this.value=this.value.replace(/\D/g,'').slice(0,16).replace(/(.{4})/g,'$1 ').trim()" class="w-full bg-[#FAF7EE] dark-border rounded-xl px-3.5 py-2 text-xs font-bold code-font"><div class="grid grid-cols-2 gap-3"><input value="11/29" maxlength="5" class="bg-[#FAF7EE] dark-border rounded-xl px-3 py-2 text-xs font-bold code-font"><input type="password" value="777" maxlength="4" class="bg-[#FAF7EE] dark-border rounded-xl px-3 py-2 text-xs font-bold code-font"></div></div>
+        <div id="paneCod" class="hidden bg-white dark-border rounded-2xl p-4 space-y-2"><div class="flex justify-between code-font text-[11px] font-bold"><span>PAY AT DOORSTEP</span><span class="bg-[#A7F3D0] dark-border px-2 py-0.5 rounded text-[9px]">AVAILABLE</span></div><p class="text-xs text-neutral-600">Inspect your kraft-wrapped Zigzoo parcel upon arrival and pay the courier rider directly.</p></div>
+        <div id="paySpin" class="hidden bg-[#FDB813]/40 dark-border rounded-2xl p-3.5 flex items-center gap-3"><i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i><div class="code-font text-xs font-bold"><div id="payStep">AUTHORIZING WITH ZIGZOO SANDBOX...</div><div class="text-[10px] text-neutral-600 font-normal">Simulating instant bank clearance</div></div></div>
+      </div>
+      <div id="payDone" class="hidden p-6 space-y-4 text-center"><div class="w-16 h-16 mx-auto rounded-2xl bg-[#A7F3D0] dark-border hard-shadow-sm flex items-center justify-center text-3xl">✓</div><div><span class="code-font text-[10px] font-bold bg-[#FDB813] dark-border px-2.5 py-0.5 rounded">SANDBOX RECEIPT</span><h3 class="text-2xl font-bold heading-font mt-1">Payment Approved!</h3><p class="text-xs text-neutral-600">Your simulated Zigzoo order has been logged for studio dispatch.</p></div><div class="bg-white dark-border rounded-2xl p-4 space-y-2 code-font text-[11px] text-left"><div class="flex justify-between"><span class="text-neutral-500">TXN REF</span><span id="txnRef" class="font-bold">ZGZ-884120</span></div><div class="flex justify-between border-t border-dashed pt-2"><span class="text-neutral-500">METHOD</span><span id="txnMethod" class="font-bold">UPI</span></div><div class="flex justify-between border-t border-dashed pt-2"><span class="text-neutral-500">TOTAL PAID</span><span id="txnPaid" class="font-bold text-[#E0533C]">₹2,898</span></div></div><button onclick="toggleEl('payModal',false);toast('DEMO ORDER CONFIRMED! PACKING AT STUDIO.')" class="btn-tap w-full py-3 rounded-xl bg-[#111111] text-[#FAF7EE] hover:bg-[#E0533C] dark-border hard-shadow-sm code-font text-xs font-bold">DONE &amp; RETURN TO STORE →</button></div>
+      <div id="payFoot" class="p-4 border-t-2 border-[#111111] bg-white flex gap-3"><button onclick="if(!payBusy)toggleEl('payModal',false)" class="btn-tap px-4 py-3 rounded-xl bg-[#FAF7EE] dark-border hard-shadow-sm code-font text-xs font-bold">CANCEL</button><button id="paySubmit" onclick="runPay()" class="btn-tap flex-1 py-3 px-4 rounded-xl bg-[#FDB813] hover:bg-[#A7F3D0] dark-border hard-shadow-sm code-font text-xs font-bold flex items-center justify-center gap-2"><span>PAY NOW — <span id="payBtnAmt">₹2,898</span></span><i data-lucide="arrow-right" class="w-4 h-4"></i></button></div>
+    </div>
+  </div>
+
+  <div id="profileDrawer" onclick="if(event.target===this)toggleEl('profileDrawer',false)" class="fixed inset-0 bg-[#111111]/55 backdrop-blur-xs z-50 hidden flex justify-end">
+    <div class="bg-[#FAF7EE] border-l-2 border-[#111111] w-full max-w-md h-full flex flex-col justify-between">
+      <div class="p-5 pb-4 border-b-2 border-[#111111] flex items-center justify-between bg-white"><div class="flex items-center gap-2.5"><span class="w-3 h-3 rounded-full bg-[#FDB813] dark-border"></span><h3 class="text-lg font-bold heading-font">MEMBER PROFILE</h3></div><button onclick="toggleEl('profileDrawer',false)" class="btn-tap w-9 h-9 rounded-xl bg-[#FAF7EE] dark-border flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+      <div class="p-5 space-y-5 overflow-y-auto flex-1">
+        <div class="bg-white dark-border hard-shadow-sm rounded-2xl p-4 space-y-4">
+          <div class="flex items-center gap-3.5"><div class="w-16 h-16 rounded-full bg-[#FDB813] dark-border hard-shadow-sm overflow-hidden flex-shrink-0"><svg viewBox="0 0 64 64" class="w-full h-full"><circle cx="32" cy="32" r="30" fill="var(--yellow)"/><circle cx="32" cy="32" r="24" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="3 3"/><text x="32" y="42" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="30" fill="#111">X</text></svg></div><div><div class="flex items-center gap-2"><span id="profName" class="font-bold text-base">Explorer X</span><span class="code-font text-[9px] font-bold bg-[#A7F3D0] dark-border px-1.5 py-0.5 rounded">ZIGZOO+</span></div><p id="profPin" class="code-font text-[11px] text-neutral-600 mt-0.5">Panihati, WB • 700114</p><span class="inline-block mt-1.5 code-font text-[9px] font-bold bg-[#BAE6FD] dark-border px-2 py-0.5 rounded">MEMBER SINCE 2026</span></div></div>
+          <div class="grid grid-cols-2 gap-2.5 pt-3 border-t border-dashed border-neutral-300"><div><label class="code-font text-[9px] font-bold text-neutral-500 block mb-1">DISPLAY HANDLE</label><input id="inName" value="Explorer X" onchange="saveProf()" class="w-full bg-[#FAF7EE] dark-border rounded-lg px-2.5 py-2 text-xs font-bold"></div><div><label class="code-font text-[9px] font-bold text-neutral-500 block mb-1">DELIVERY PINCODE</label><input id="inPin" value="700114" maxlength="6" onchange="saveProf()" class="w-full bg-[#FAF7EE] dark-border rounded-lg px-2.5 py-2 text-xs font-bold code-font"></div></div>
+        </div>
+        <div class="bg-white dark-border rounded-2xl p-4 space-y-2.5 code-font text-[11px]"><div class="flex justify-between"><span class="text-neutral-500">TIER</span><span class="font-bold">ZIGZOO+ COLLECTOR</span></div><div class="flex justify-between border-t border-dashed pt-2"><span class="text-neutral-500">EXPRESS SHIPPING</span><span class="font-bold text-emerald-700">ACTIVE (FREE &gt; ₹499)</span></div><div class="flex justify-between border-t border-dashed pt-2"><span class="text-neutral-500">REWARD STAMPS</span><span class="font-bold text-[#E0533C]">04 / 05 STAMPS</span></div></div>
+        <button onclick="toggleEl('profileDrawer',false);toggleEl('settingsDrawer',true)" class="btn-tap w-full p-3.5 rounded-2xl bg-white hover:bg-[#BAE6FD] dark-border hard-shadow-sm flex items-center justify-between text-left"><div><div class="font-bold text-xs">Storefront Appearance &amp; Settings</div><div class="code-font text-[10px] text-neutral-500">Theme mode, color palettes, cursor &amp; currency</div></div><i data-lucide="settings" class="w-4 h-4"></i></button>
+      </div>
+      <div class="p-4 border-t-2 border-[#111111] bg-white"><button onclick="toggleEl('profileDrawer',false)" class="btn-tap w-full py-2.5 rounded-xl bg-[#FDB813] dark-border hard-shadow-sm code-font text-xs font-bold">SAVE PROFILE ✓</button></div>
+    </div>
+  </div>
+
+  <div id="settingsDrawer" onclick="if(event.target===this)toggleEl('settingsDrawer',false)" class="fixed inset-0 bg-[#111111]/55 backdrop-blur-xs z-50 hidden flex justify-end">
+    <div class="bg-[#FAF7EE] border-l-2 border-[#111111] w-full max-w-md h-full flex flex-col justify-between">
+      <div class="p-5 pb-4 border-b-2 border-[#111111] flex items-center justify-between bg-white"><div class="flex items-center gap-2.5"><span class="w-3 h-3 rounded-full bg-[#E0533C] dark-border"></span><h3 class="text-lg font-bold heading-font">STORE SETTINGS</h3></div><button onclick="toggleEl('settingsDrawer',false)" class="btn-tap w-9 h-9 rounded-xl bg-[#FAF7EE] dark-border flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+      <div class="p-5 space-y-6 overflow-y-auto flex-1">
+        <div class="space-y-2.5"><div class="flex justify-between code-font text-[11px] font-bold"><span>01 // SURFACE MODE</span><span id="modeTag" class="bg-[#FDB813] dark-border px-2 py-0.5 rounded text-[10px]">LIGHT PAPER</span></div><div class="grid grid-cols-2 gap-3"><button id="btnLight" onclick="setTheme('light')" class="btn-tap py-3 rounded-xl bg-[#111111] text-[#FAF7EE] dark-border hard-shadow-sm code-font text-xs font-bold flex items-center justify-center gap-2"><i data-lucide="sun" class="w-4 h-4 text-[#FDB813]"></i><span>WHITE / LIGHT</span></button><button id="btnDark" onclick="setTheme('dark')" class="btn-tap py-3 rounded-xl bg-white dark-border hard-shadow-sm code-font text-xs font-bold flex items-center justify-center gap-2"><i data-lucide="moon" class="w-4 h-4"></i><span>DARK INK</span></button></div></div>
+        <div class="space-y-2.5"><div class="flex justify-between code-font text-[11px] font-bold"><span>02 // COLOR PALETTE</span><span id="palTag" class="text-[10px] text-[#E0533C]">DEFAULT MARIGOLD</span></div><div id="palList" class="space-y-2"></div></div>
+        <div class="space-y-3 pt-2 border-t-2 border-dashed border-neutral-300">
+          <span class="code-font text-[11px] font-bold block">03 // STOREFRONT PREFERENCES</span>
+          <div class="bg-white dark-border rounded-xl p-3.5 space-y-2.5">
+            <div class="flex justify-between"><div><div class="font-bold text-xs">Mouse Cursor Animation</div><div class="code-font text-[10px] text-neutral-500">Desktop tactile pointer style</div></div><span id="curTag" class="code-font text-[10px] font-bold bg-[#FDB813] dark-border px-2 py-0.5 rounded h-fit">DEFAULT</span></div>
+            <div class="grid grid-cols-2 gap-2 code-font text-[11px] font-bold"><button onclick="setCursor('default')" data-cmode="default" class="cmode py-2 px-2.5 rounded-lg bg-[#111111] text-[#FAF7EE] dark-border text-left">✦ DEFAULT</button><button onclick="setCursor('ribbon')" data-cmode="ribbon" class="cmode py-2 px-2.5 rounded-lg bg-[#FAF7EE] dark-border text-left">〰 RIBBON</button><button onclick="setCursor('crosshair')" data-cmode="crosshair" class="cmode py-2 px-2.5 rounded-lg bg-[#FAF7EE] dark-border text-left">⌖ TARGET</button><button onclick="setCursor('pixel')" data-cmode="pixel" class="cmode py-2 px-2.5 rounded-lg bg-[#FAF7EE] dark-border text-left">▣ PIXEL</button></div>
+            <button onclick="setCursor('none')" data-cmode="none" class="cmode w-full py-2 px-3 rounded-lg bg-[#FAF7EE] dark-border code-font text-[11px] font-bold flex justify-between"><span>⊘ NO ANIMATION</span><span class="text-[9px] px-1.5 py-0.5 rounded bg-[#FDB813] text-[#111111] dark-border">OFF</span></button>
+          </div>
+          <div class="bg-white dark-border rounded-xl p-3 flex items-center justify-between gap-2"><div><div class="font-bold text-xs">Store Currency</div><div id="fxRate" class="code-font text-[9px] text-neutral-500">SPOT: $1 = ₹92.68 • €1 = ₹101.40</div></div><div class="flex gap-1 code-font text-xs font-bold"><button onclick="setCurr('INR')" data-ccode="INR" class="ccode px-2.5 py-1 rounded-lg bg-[#111111] text-[#FAF7EE] dark-border">₹ INR</button><button onclick="setCurr('USD')" data-ccode="USD" class="ccode px-2.5 py-1 rounded-lg bg-[#FAF7EE] dark-border">$ USD</button><button onclick="setCurr('EUR')" data-ccode="EUR" class="ccode px-2.5 py-1 rounded-lg bg-[#FAF7EE] dark-border">€ EUR</button></div></div>
+          <div class="bg-white dark-border rounded-xl p-3 space-y-2"><div class="flex justify-between"><span class="font-bold text-xs">Courier Priority</span><span class="code-font text-[10px] font-bold text-[#E0533C]">METRO EXPRESS</span></div><div class="grid grid-cols-2 gap-2 code-font text-[11px] font-bold"><button onclick="setShip(this,'Express (24–48h)')" class="shipbtn py-1.5 rounded-lg bg-[#A7F3D0] dark-border">⚡ EXPRESS</button><button onclick="setShip(this,'Eco-Post Standard')" class="shipbtn py-1.5 rounded-lg bg-[#FAF7EE] dark-border">🚲 ECO-POST</button></div></div>
+          <div class="bg-white dark-border rounded-xl p-3.5 space-y-3">
+            <label class="flex items-center justify-between cursor-pointer"><div><div class="font-bold text-xs">100% Plastic-Free Kraft Wrap</div><div class="code-font text-[10px] text-neutral-500">Honeycomb paper &amp; gummed tape</div></div><input type="checkbox" checked onchange="toast(this.checked?'KRAFT WRAP ENABLED':'STANDARD WRAP')" class="w-4 h-4 accent-[#111111]"></label>
+            <div class="pt-2.5 border-t border-dashed border-neutral-300 flex items-center justify-between"><div><div class="font-bold text-xs">Boot &amp; Offline Previews</div><div class="code-font text-[10px] text-neutral-500">Test launch loader &amp; offline alert</div></div><div class="flex gap-1.5 code-font text-[10px] font-bold"><button onclick="toggleEl('settingsDrawer',false);runLoader()" class="px-2 py-1 rounded-lg bg-[#A7F3D0] dark-border">BOOT</button><button onclick="toggleEl('settingsDrawer',false);toggleEl('offlineModal',true)" class="px-2 py-1 rounded-lg bg-[#E0533C] text-white dark-border">OFFLINE</button></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 border-t-2 border-[#111111] bg-white flex gap-3"><button onclick="resetCfg()" class="btn-tap px-3.5 py-2.5 rounded-xl bg-[#FAF7EE] dark-border hard-shadow-sm code-font text-[11px] font-bold">↺ RESET</button><button onclick="toggleEl('settingsDrawer',false)" class="btn-tap flex-1 py-2.5 rounded-xl bg-[#FDB813] dark-border hard-shadow-sm code-font text-xs font-bold">SAVE &amp; DONE ✓</button></div>
+    </div>
+  </div>
+
+  <!-- Product Quick-View & 2.4x Zoom Modal -->
+  <div id="prodModal" role="dialog" aria-modal="true" onclick="if(event.target===this)toggleEl('prodModal',false)" class="fixed inset-0 bg-[#111111]/65 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div id="prodCard" class="bg-[#FAF7EE] dark-border hard-shadow-lg rounded-t-3xl sm:rounded-3xl max-w-4xl w-full max-h-[92dvh] flex flex-col overflow-hidden">
+      <div class="bg-white px-4 sm:px-6 py-3 border-b-2 border-[#111111] flex items-center justify-between"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#E0533C] dark-border"></span><span class="w-2.5 h-2.5 rounded-full bg-[#FDB813] dark-border"></span><span class="w-2.5 h-2.5 rounded-full bg-[#A7F3D0] dark-border"></span><span id="mCode" class="code-font text-xs font-bold ml-1">INSPECT_OBJ // VOL. 04</span></div><button onclick="toggleEl('prodModal',false)" class="btn-tap w-8 h-8 rounded-lg bg-[#FAF7EE] hover:bg-[#E0533C] hover:text-white dark-border flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+      <div class="grid grid-cols-1 md:grid-cols-12 overflow-y-auto flex-1">
+        <div class="md:col-span-7 p-4 sm:p-6 bg-[#BAE6FD]/35 border-b-2 md:border-b-0 md:border-r-2 border-[#111111] flex flex-col justify-between gap-3">
+          <div id="zoomBox" onclick="toggleZoom(event)" onmousemove="panZoom(event.clientX,event.clientY)" ontouchmove="if(zoomLvl>1){event.preventDefault();panZoom(event.touches[0].clientX,event.touches[0].clientY)}" onmouseleave="document.getElementById('zoomImg').style.transformOrigin='50% 50%'" class="zoom-box rounded-2xl bg-white dark-border hard-shadow-sm aspect-[16/10] sm:aspect-square max-h-[38dvh] md:max-h-none w-full flex items-center justify-center select-none"><img id="zoomImg" src="" alt="Zoom" class="w-full h-full object-cover pointer-events-none"><div class="absolute top-3 left-3 bg-[#111111] text-[#FAF7EE] dark-border px-2.5 py-1 rounded-lg code-font text-[10px] font-bold flex items-center gap-1.5 pointer-events-none"><i data-lucide="zoom-in" class="w-3.5 h-3.5 text-[#FDB813]"></i><span id="zoomTxt">1.0X // TAP TO ZOOM</span></div><div id="mCat" class="absolute bottom-3 left-3 bg-[#FDB813] dark-border px-2.5 py-0.5 rounded-lg code-font text-[10px] font-bold pointer-events-none">CURATED OBJECT</div></div>
+          <div class="flex items-center justify-between bg-white dark-border rounded-xl px-3 py-2"><span class="code-font text-[10px] font-bold text-neutral-600">OPTICAL LOUPE</span><div class="flex gap-1.5 code-font text-[10px] font-bold"><button onclick="setZoom(1)" id="z1Btn" class="px-2.5 py-1 rounded-lg bg-[#111111] text-[#FAF7EE] dark-border">1.0X</button><button onclick="setZoom(2.4)" id="z2Btn" class="px-2.5 py-1 rounded-lg bg-[#FAF7EE] dark-border">2.4X LOUPE</button></div></div>
+        </div>
+        <div class="md:col-span-5 p-4 sm:p-6 flex flex-col justify-between space-y-4 bg-[#FAF7EE]">
+          <div class="space-y-3">
+            <div class="flex justify-between"><span class="code-font text-[10px] font-bold bg-[#A7F3D0] dark-border px-2 py-0.5 rounded">● IN STOCK // VERIFIED</span><span class="code-font text-xs font-bold">★ 4.9</span></div>
+            <h2 id="mTitle" class="text-xl sm:text-3xl font-bold heading-font leading-tight">Product Title</h2>
+            <div class="flex items-baseline gap-2.5"><span id="mPrice" class="text-2xl font-bold heading-font text-[#E0533C]">₹2,399</span><span id="mOldPrice" class="text-xs text-neutral-400 line-through code-font hidden"></span></div>
+            <p id="mDesc" class="text-xs sm:text-sm text-neutral-700 leading-relaxed"></p>
+            <div class="bg-white dark-border rounded-2xl p-3 space-y-1.5 code-font text-[11px]"><div class="flex justify-between"><span class="text-neutral-500">DISPATCH</span><span class="font-bold">24–48H EXPRESS</span></div><div class="flex justify-between border-t border-dashed pt-1.5"><span class="text-neutral-500">PACKAGING</span><span class="font-bold">100% KRAFT WRAP</span></div></div>
+            <div class="bg-white dark-border rounded-2xl p-3 space-y-2"><div class="flex justify-between border-b border-dashed pb-2"><span class="code-font text-[10px] font-bold">VERIFIED RATINGS</span><span class="code-font text-[10px] font-bold bg-[#FDB813] dark-border px-1.5 py-0.5 rounded">4.9 ★ (128)</span></div><div class="bg-[#FAF7EE] dark-border rounded-xl p-2.5 text-[11px]"><div class="flex justify-between font-bold"><span>Devika K. • Bengaluru</span><span class="text-[#E0533C]">★★★★★</span></div><p class="text-neutral-700 mt-1">"Solid everyday build quality and honest materials. Fast doorstep delivery!"</p></div></div>
+          </div>
+          <div class="space-y-3 pt-3 border-t-2 border-[#111111]">
+            <div class="flex items-center justify-between"><span class="code-font text-[11px] font-bold">QUANTITY</span><div class="inline-flex items-center bg-white dark-border rounded-xl overflow-hidden"><button onclick="setModalQty(-1)" class="px-3 py-1.5 font-bold code-font text-xs hover:bg-[#FDB813]">-</button><span id="mQty" class="px-3.5 py-1.5 font-bold code-font text-xs border-x-2 border-[#111111]">1</span><button onclick="setModalQty(1)" class="px-3 py-1.5 font-bold code-font text-xs hover:bg-[#FDB813]">+</button></div></div>
+            <button onclick="addModalToBag()" class="btn-tap w-full py-3 rounded-xl bg-[#FDB813] hover:bg-[#A7F3D0] dark-border hard-shadow-sm code-font text-xs font-bold flex items-center justify-center gap-2"><i data-lucide="shopping-bag" class="w-4 h-4"></i><span>ADD TO BAG — <span id="mBtnTotal">₹2,399</span></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Essential Store Collection Modal -->
+  <div id="essModal" role="dialog" aria-modal="true" onclick="if(event.target===this)toggleEl('essModal',false)" class="fixed inset-0 bg-[#111111]/65 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-[#FAF7EE] dark-border hard-shadow-lg rounded-t-3xl sm:rounded-3xl max-w-4xl w-full max-h-[90dvh] flex flex-col overflow-hidden">
+      <div id="essBanner" class="bg-[#FDB813] px-5 py-3.5 border-b-2 border-[#111111] flex items-center justify-between"><div class="flex items-center gap-2.5"><span id="essEmoji" class="w-9 h-9 rounded-xl bg-white dark-border flex items-center justify-center text-xl">☕</span><div><span id="essCode" class="code-font text-[10px] font-bold block">ESSENTIAL STORE</span><h3 id="essTitle" class="text-lg sm:text-xl font-bold heading-font">Pantry &amp; Brews</h3></div></div><button onclick="toggleEl('essModal',false)" class="btn-tap w-9 h-9 rounded-xl bg-white hover:bg-[#E0533C] hover:text-white dark-border flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+      <div class="bg-white px-5 py-2.5 border-b-2 border-[#111111] flex gap-2 overflow-x-auto no-bar code-font text-[11px] font-bold"><button onclick="openEss('pantry')" data-etab="pantry" class="etab px-3 py-1 rounded-lg bg-[#111111] text-[#FAF7EE] dark-border whitespace-nowrap">☕ PANTRY</button><button onclick="openEss('care')" data-etab="care" class="etab px-3 py-1 rounded-lg bg-[#FAF7EE] dark-border whitespace-nowrap">🧼 CARE</button><button onclick="openEss('study')" data-etab="study" class="etab px-3 py-1 rounded-lg bg-[#FAF7EE] dark-border whitespace-nowrap">📓 STUDY &amp; WORK</button><button onclick="openEss('bites')" data-etab="bites" class="etab px-3 py-1 rounded-lg bg-[#FAF7EE] dark-border whitespace-nowrap">🍪 HEALTHY BITES</button></div>
+      <div class="p-5 overflow-y-auto flex-1 space-y-4"><p id="essSub" class="text-xs sm:text-sm text-neutral-700 font-medium"></p><div id="essItems" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastBanner" class="fixed bottom-4 right-4 left-4 sm:left-auto bg-[#111111] text-[#FAF7EE] dark-border hard-shadow-sm px-4 py-3 rounded-xl code-font text-xs font-bold translate-y-24 opacity-0 transition duration-300 pointer-events-none flex items-center gap-2.5 z-50"><span class="w-2.5 h-2.5 rounded-full bg-[#A7F3D0]"></span><span id="toastTxt">Added to bag!</span></div>
+
+  <!-- Linked JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
